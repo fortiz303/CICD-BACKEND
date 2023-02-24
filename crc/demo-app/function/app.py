@@ -1,8 +1,8 @@
 import json
 import boto3
 
-dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
-table = dynamodb.Table('resume-app-tbl')
+dynamodb = boto3.resource('dynamodb', region_name='us-west-1')
+table = dynamodb.Table('resume-app-tbl-sam')
 
 def lambda_handler(event, context):
     response = table.get_item(
