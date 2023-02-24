@@ -5,7 +5,7 @@ Resources:
   DemoDynamoDBTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: demo1-app6-tbl
+      TableName: resume-app-tbl-sam
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
         - AttributeName: "ID"
@@ -19,7 +19,7 @@ Resources:
     Properties:
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: demo1-app6-tbl
+            TableName: resume-app-tbl-sam
       CodeUri: demo-app/
       Handler: app.lambda_handler
       Runtime: python3.8
@@ -38,7 +38,7 @@ Resources:
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
-      BucketName: awsawesome-fransisco-cloud-resume
+      BucketName: mycloudresume23
 
   BucketPolicy:
    Type: AWS::S3::BucketPolicy
@@ -58,47 +58,47 @@ Resources:
                - /*
      Bucket: !Ref DemoWebsite
 
-  DemoDistribution:
-   Type: "AWS::CloudFront::Distribution"
-   Properties:
-     DistributionConfig:
-       ViewerCertificate:
-         AcmCertificateArn: !Ref DemoCertificate
-         SslSupportMethod: sni-only
-       Aliases:
-         - resume.nphmultan.com
-       DefaultCacheBehavior:
-         ViewerProtocolPolicy: redirect-to-https
-         TargetOriginId: awsawesome-fransisco-cloud-resume.s3-website-us-east-1.amazonaws.com
-         DefaultTTL: 0
-         MinTTL: 0
-         MaxTTL: 0
-         ForwardedValues:
-           QueryString: false
-       Origins:
-         - DomainName: awsawesome-fransisco-cloud-resume.s3-website-us-east-1.amazonaws.com
-           Id: awsawesome-fransisco-cloud-resume.s3-website-us-east-1.amazonaws.com
-           CustomOriginConfig:
-             OriginProtocolPolicy: http-only
-       Enabled: "true"
-       DefaultRootObject: index.html
+#   DemoDistribution:
+#    Type: "AWS::CloudFront::Distribution"
+#    Properties:
+#      DistributionConfig:
+#        ViewerCertificate:
+#          AcmCertificateArn: !Ref DemoCertificate
+#          SslSupportMethod: sni-only
+#        Aliases:
+#          - resume.nphmultan.com
+#        DefaultCacheBehavior:
+#          ViewerProtocolPolicy: redirect-to-https
+#          TargetOriginId: awsawesome-fransisco-cloud-resume.s3-website-us-east-1.amazonaws.com
+#          DefaultTTL: 0
+#          MinTTL: 0
+#          MaxTTL: 0
+#          ForwardedValues:
+#            QueryString: false
+#        Origins:
+#          - DomainName: awsawesome-fransisco-cloud-resume.s3-website-us-east-1.amazonaws.com
+#            Id: awsawesome-fransisco-cloud-resume.s3-website-us-east-1.amazonaws.com
+#            CustomOriginConfig:
+#              OriginProtocolPolicy: http-only
+#        Enabled: "true"
+#        DefaultRootObject: index.html
 
-  DemoRoute53Record:
-   Type: "AWS::Route53::RecordSetGroup"
-   Properties:
-     HostedZoneId: Z06559322AO5UYWN1RZ75
-     RecordSets:
-       - Name: resume.nphmultan.com
-         Type: A
-         AliasTarget:
-           HostedZoneId: Z2FDTNDATAQYW2
-           DNSName: !GetAtt DemoDistribution.DomainName
+#   DemoRoute53Record:
+#    Type: "AWS::Route53::RecordSetGroup"
+#    Properties:
+#      HostedZoneId: Z06559322AO5UYWN1RZ75
+#      RecordSets:
+#        - Name: resume.nphmultan.com
+#          Type: A
+#          AliasTarget:
+#            HostedZoneId: Z2FDTNDATAQYW2
+#            DNSName: !GetAtt DemoDistribution.DomainName
 
-  DemoCertificate:
-     Type: AWS::CertificateManager::Certificate
-     Properties:
-       DomainName: resume.nphmultan.com
-       ValidationMethod: DNS
+#   DemoCertificate:
+#      Type: AWS::CertificateManager::Certificate
+#      Properties:
+#        DomainName: resume.nphmultan.com
+#        ValidationMethod: DNS
 
 Outputs:
   DemoLambdaFunctionApi:
